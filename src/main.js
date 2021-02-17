@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+// import Vuex from 'vuex';
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import App from './App.vue';
@@ -16,7 +16,7 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false

@@ -6,7 +6,10 @@
         <logo></logo>
       </div>
       <div class="py-2 px-1">
-        <el-button @click="menuCollapse()" icon="el-icon-s-fold"></el-button>
+        <el-button 
+        @click="menuCollapse()" 
+        :icon="iconCollapse"> 
+        </el-button>
       </div>
       <div class="py-2 px-3">
         <el-input placeholder="Please input" v-model="input"></el-input>
@@ -27,14 +30,27 @@
 
 <script>
 import Logo from "./Logo.vue";
-// import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 export default {
   components: { Logo },
   data() {
     return {
-      input:'',
+      input: "",
+      icon: 'class="el-icon-s-fold',
     };
-  }
+  },
+  methods: {
+    ...mapMutations(["menuCollapse"]),
+  },
+  computed: {
+    ...mapGetters([
+      'getCollapseValue'
+    ]),
+    iconCollapse() {
+      const icon = this.getCollapseValue ? "el-icon-s-fold" : "el-icon-error";
+      return icon;
+    },
+  },
 };
 </script>
 

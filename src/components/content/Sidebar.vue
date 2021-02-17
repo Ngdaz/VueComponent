@@ -3,7 +3,7 @@
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      
+      :collapse="getCollapseValue"
     >
       <el-submenu index="1">
         <template slot="title">
@@ -40,17 +40,21 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      // isCollapse: false
+    };
   },
   methods: {
-    // computed: mapState({
-    //   isCollapse: (state) => state.isCollapse,
-    // }),
+    
   },
+  computed: mapGetters([
+    'getCollapseValue'
+  ])
+ 
 };
 </script>
 
