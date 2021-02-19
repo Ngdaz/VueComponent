@@ -99,25 +99,32 @@
         </div>
       </el-form>
     </div>
-    <tableCrawl></tableCrawl>
+    <tablelayout v-if="getAddDataVisible"></tablelayout>
+    <form-input v-else></form-input>
   </div>
 </template>
 
 <script>
-import tableCrawl from "../content/Table.vue";
+import Tablelayout from '../content/Table'
+import FormInput from '../content/FormInput'
+import { mapGetters } from "vuex";
 export default {
-  components: {
-    tableCrawl,
+   components: {
+    Tablelayout,
+    FormInput,
   },
-
   data() {
     return {
+      
       form: {
         acc_list: "",
       },
       data_acclist: "data",
     };
   },
+  computed: mapGetters([
+    'getAddDataVisible'
+  ])
 };
 </script>
 

@@ -8,7 +8,7 @@
         <sidebar></sidebar>
       </el-aside>
       <el-main>
-        <crawldatapage></crawldatapage>
+         <crawldatapage></crawldatapage>
       </el-main>
     </el-container>
   </el-container>

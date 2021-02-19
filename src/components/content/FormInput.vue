@@ -1,15 +1,15 @@
 <template>
-  <el-dialog title="Add keyword" 
-  :visible="getDialogStatus"
-  :show-close="false"
-  >
-    <!-- {{getRowId}} -->
-    <!-- {{rowID}} -->
-    {{test}}
+  <div>
+    <el-radio-group v-model="labelPosition" size="small">
+      <el-radio-button label="left">Left</el-radio-button>
+      <el-radio-button label="right">Right</el-radio-button>
+      <el-radio-button label="top">Top</el-radio-button>
+    </el-radio-group>
+    <div style="margin: 20px;"></div>
     <el-form
+      :label-position="labelPosition"
       label-width="100px"
       :model="formLabelAlign"
-      :label-position="labelPosition"
     >
       <!-- <pre>{{ formLabelAlign }}</pre> -->
       <el-form-item label="GroupID">
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="Picture">
         <el-input v-model="formLabelAlign.picture"></el-input>
-      </el-form-item> 
+      </el-form-item>
       <el-form-item label="Name">
         <el-input v-model="formLabelAlign.name"></el-input>
       </el-form-item>
@@ -36,30 +36,29 @@
       <el-form-item label="A/Q">
         <el-input v-model="formLabelAlign.aAndq"></el-input>
       </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="showDialog()">Close</el-button>
       <el-button
-        type="primary"
         @click="
-          updateTable(test)
+          add();
+          showAddForm();
         "
-        >Confirm</el-button
       >
-    </span>
-  </el-dialog>
+        ADD
+      </el-button>
+    </el-form>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import { mapGetters, mapMutations, mapState } from "vuex";
+import axios from "axios";
+import { mapMutations } from "vuex";
+
 const baseURL = "http://localhost:3000/posts";
+
 export default {
   data() {
     return {
       dataAPI: [],
-      showDialogLocal: 'getAddDataVisible',
-     
+      labelPosition: "right",
       formLabelAlign: {
         aAndq: "",
         groupID: "",
@@ -70,41 +69,19 @@ export default {
         members: "",
         postperweek: "",
       },
-      labelPosition: "right",
-      formLabelWidth: "120px",
     };
   },
-
-// async created() {
-//     try {
-      
-//       const res = await axios.get(baseURL + '/' + `${this.getRowId}`);
-//       console.log('lay du lieu tu api',res.data);
-//       this.formLabelAlign = res.data
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   },
-  
-  computed: {
-    ...mapGetters(["getDialogStatus", "getRowId"]),
-    ...mapState({test: (state) => state.crawl.rowID}),
-    
-  },
   methods: {
-    async updateTable(id) {
+     add() {
      try {
-        const res = await axios.put(baseURL + '/' + `${id}`, this.formLabelAlign);
-        console.log('push du lieu da sua ',res.data);
-        console.log('id', id);
+        const res = axios.post(baseURL, this.formLabelAlign);
+
       this.dataAPI = [...this.dataAPI, res.data];
      } catch(e) {
        this.errors.push(e)
      }
     },
-
-    ...mapMutations(["showDialog"]),
+    ...mapMutations(["showAddForm"]),
   },
-  
 };
 </script>

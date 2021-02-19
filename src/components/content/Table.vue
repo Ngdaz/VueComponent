@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-sm-8"></div>
       <div class="col-sm-4 text-right my-3">
-        <el-button type="success">Add</el-button>
+        <el-button type="success" @click="showAddForm()">Add</el-button>
       </div>
     </div>
     <!-- table -->
@@ -52,7 +52,6 @@
             <span style="margin-left: 10px">{{ scope.row.keyboard }}</span>
             <i
               style="margin-left: 30px"
-              @click="showDialog()"
               class="el-icon-circle-plus-outline"
             ></i>
           </template>
@@ -84,13 +83,13 @@
         <!-- 9 -->
         <el-table-column align="right" label="Operations">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            <el-button size="mini" @click="putDataToStore();showDialog(scope.row.id)"
               >Edit</el-button
             >
             <el-button
               size="mini"
               type="danger"
-              @click.native.prevent="deleteRow(scope.$index, dataAPI)"
+              @click.native.prevent="deleteRow(scope.$index, dataAPI);deleteAPI(scope.row.id)"
               >Delete</el-button
             >
           </template>
@@ -98,23 +97,24 @@
       </el-table>
     </div>
     <div class="row">
-      <dialog-add></dialog-add>
+      <dialog-edit></dialog-edit>
     </div>
   </div>
 </template>
 
 <script>
-import dialogAdd from "../content/Dialog.vue";
-import { mapMutations } from "vuex";
+import dialogEdit from "../content/Dialog.vue";
+
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import axios from "axios";
 
+const baseURL = "http://localhost:3000/posts";
 
-const baseURL = "http://localhost:3000/todos"
 
 export default {
   name: "tableCrawl",
 
-  components: { dialogAdd },
+  components: { dialogEdit },
 
   data() {
     return {
@@ -124,17 +124,34 @@ export default {
   },
   async created() {
     try {
-      const res = await axios.get("http://localhost:3000/posts");
+      const res = await axios.get(baseURL);
       this.dataAPI = res.data;
     } catch (e) {
       console.error(e);
     }
   },
+
   methods: {
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
+
+    deleteAPI(id) {
+      axios.delete(baseURL  + '/' + `${id}`)
+      this.dataAPI.splice(id, 1 )
+    },
+
+    putDataToStore() {
+      this.getData
+      console.log(this.getData);
+    },
+
     ...mapMutations(["showDialog"]),
+    ...mapMutations(["showAddForm"]),
+    ...mapMutations(["mapRowId"]),
+    ...mapGetters(["getRowId"]),
+    ...mapActions(["getData"])
+    
   },
 };
 </script>

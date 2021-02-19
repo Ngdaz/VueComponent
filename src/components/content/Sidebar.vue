@@ -35,6 +35,8 @@
         <i class="el-icon-setting"></i>
         <span slot="title">Navigator Four</span>
       </el-menu-item>
+      <el-menu-item index="5">
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -45,7 +47,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      // isCollapse: false
+  
     };
   },
   methods: {
