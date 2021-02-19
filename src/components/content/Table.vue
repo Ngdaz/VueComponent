@@ -83,13 +83,16 @@
         <!-- 9 -->
         <el-table-column align="right" label="Operations">
           <template slot-scope="scope">
-            <el-button size="mini" @click="putDataToStore();showDialog(scope.row.id)"
+            <el-button size="mini" @click="putDataToStore(scope.row.id)"
               >Edit</el-button
             >
             <el-button
               size="mini"
               type="danger"
-              @click.native.prevent="deleteRow(scope.$index, dataAPI);deleteAPI(scope.row.id)"
+              @click.native.prevent="
+                deleteRow(scope.$index, dataAPI);
+                deleteAPI(scope.row.id);
+              "
               >Delete</el-button
             >
           </template>
@@ -105,11 +108,10 @@
 <script>
 import dialogEdit from "../content/Dialog.vue";
 
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import axios from "axios";
 
 const baseURL = "http://localhost:3000/posts";
-
 
 export default {
   name: "tableCrawl",
@@ -137,21 +139,19 @@ export default {
     },
 
     deleteAPI(id) {
-      axios.delete(baseURL  + '/' + `${id}`)
-      this.dataAPI.splice(id, 1 )
+      axios.delete(baseURL + "/" + `${id}`);
+      this.dataAPI.splice(id, 1);
     },
 
-    putDataToStore() {
-      this.getData
-      console.log(this.getData);
+    async putDataToStore(id) {
+      this.showDialog(id),
+        await axios.get(baseURL + "/" + `${id}`).then((response) => {
+          this.setData(response.data);
+        });
     },
 
-    ...mapMutations(["showDialog"]),
-    ...mapMutations(["showAddForm"]),
-    ...mapMutations(["mapRowId"]),
+    ...mapMutations(["showDialog", "showAddForm", "setData"]),
     ...mapGetters(["getRowId"]),
-    ...mapActions(["getData"])
-    
   },
 };
 </script>

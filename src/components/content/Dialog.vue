@@ -3,38 +3,37 @@
   :visible="getDialogStatus"
   :show-close="false"
   >
-    <!-- {{getRowId}} -->
-    <!-- {{rowID}} -->
-    {{test}}
+    {{dataEdit}}
     <el-form
+      v-if="dataEdit"
       label-width="100px"
-      :model="formLabelAlign"
+      :model="dataEdit"
       :label-position="labelPosition"
     >
-      <!-- <pre>{{ formLabelAlign }}</pre> -->
+      <!-- <pre>{{ dataEdit }}</pre> -->
       <el-form-item label="GroupID">
-        <el-input v-model="formLabelAlign.groupID"></el-input>
+        <el-input v-model="dataEdit.groupID"></el-input>
       </el-form-item>
       <el-form-item label="Picture">
-        <el-input v-model="formLabelAlign.picture"></el-input>
+        <el-input v-model="dataEdit.picture"></el-input>
       </el-form-item> 
       <el-form-item label="Name">
-        <el-input v-model="formLabelAlign.name"></el-input>
+        <el-input v-model="dataEdit.name"></el-input>
       </el-form-item>
       <el-form-item label="Keyboard">
-        <el-input v-model="formLabelAlign.keyboard"></el-input>
+        <el-input v-model="dataEdit.keyboard"></el-input>
       </el-form-item>
       <el-form-item label="Industry">
-        <el-input v-model="formLabelAlign.industry"></el-input>
+        <el-input v-model="dataEdit.industry"></el-input>
       </el-form-item>
       <el-form-item label="Member">
-        <el-input v-model="formLabelAlign.memebers"></el-input>
+        <el-input v-model="dataEdit.memebers"></el-input>
       </el-form-item>
       <el-form-item label="Post/Week">
-        <el-input v-model="formLabelAlign.postperweek"></el-input>
+        <el-input v-model="dataEdit.postperweek"></el-input>
       </el-form-item>
       <el-form-item label="A/Q">
-        <el-input v-model="formLabelAlign.aAndq"></el-input>
+        <el-input v-model="dataEdit.aAndq"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -59,42 +58,22 @@ export default {
     return {
       dataAPI: [],
       showDialogLocal: 'getAddDataVisible',
-     
-      formLabelAlign: {
-        aAndq: "",
-        groupID: "",
-        picture: "",
-        name: "",
-        keyboard: "",
-        industry: "",
-        members: "",
-        postperweek: "",
-      },
       labelPosition: "right",
       formLabelWidth: "120px",
     };
   },
 
-// async created() {
-//     try {
-      
-//       const res = await axios.get(baseURL + '/' + `${this.getRowId}`);
-//       console.log('lay du lieu tu api',res.data);
-//       this.formLabelAlign = res.data
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   },
   
   computed: {
     ...mapGetters(["getDialogStatus", "getRowId"]),
     ...mapState({test: (state) => state.crawl.rowID}),
+    ...mapState({dataEdit: (state) => state.crawl.dataAPIEdit}),
     
   },
   methods: {
     async updateTable(id) {
      try {
-        const res = await axios.put(baseURL + '/' + `${id}`, this.formLabelAlign);
+        const res = await axios.put(baseURL + '/' + `${id}`, this.dataEdit);
         console.log('push du lieu da sua ',res.data);
         console.log('id', id);
       this.dataAPI = [...this.dataAPI, res.data];
